@@ -36,10 +36,10 @@ const SignUp: React.FC = () => {
             icon={FiUser}
             placeholder="Nome"
             ref={register({
-              required: 'Este campo é obrigatório',
-              minLength: {
-                value: 8,
-                message: 'Deve ter no mínimo 8 caracteres.',
+              required: 'Campo obrigatório',
+              pattern: {
+                value: /\D{4,}\s+\D{4,}/,
+                message: 'Nome inválido.',
               },
             })}
           />
@@ -50,7 +50,7 @@ const SignUp: React.FC = () => {
             icon={FiMail}
             placeholder="E-mail"
             ref={register({
-              required: 'Este campo é obrigatório',
+              required: 'Campo obrigatório',
               pattern: {
                 value: /\w+@\w+\.[\w].+/,
                 message: 'E-mail inválido',
@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
             type="password"
             placeholder="Senha"
             ref={register({
-              required: 'Este campo é obrigatório',
+              required: 'Campo obrigatório',
               minLength: {
                 value: 6,
                 message: 'Deve ter no mínimo 6 caracteres',
