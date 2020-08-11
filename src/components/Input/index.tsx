@@ -1,10 +1,4 @@
-import React, {
-  InputHTMLAttributes,
-  Ref,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
+import React, { InputHTMLAttributes, Ref, useState, useCallback } from 'react';
 import { IconBaseProps } from 'react-icons';
 
 import { Container } from './styles';
@@ -17,8 +11,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const Input: React.FC<InputProps> = React.forwardRef(
   ({ icon: Icon, ...rest }, ref) => {
-    const inputRef = useRef<HTMLInputElement>(null);
-
     const [isFocused, setIsFocused] = useState(false);
 
     const handleInputBlur = useCallback(() => {
