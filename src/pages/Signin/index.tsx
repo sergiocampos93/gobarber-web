@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -18,14 +19,28 @@ const SignIn: React.FC = () => {
     password: string;
   };
   const { register, handleSubmit, errors } = useForm<FormData>();
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
+  const { addToast } = useToast();
   return (
     <Container>
       <Content>
         <img src={logoImg} alt="GoBarber" />
         <form
-          onSubmit={handleSubmit(formData => {
-            signIn({ email: formData.email, password: formData.password });
+          onSubmit={handleSubmit(async formData => {
+            try {
+              await signIn({
+                email: formData.email,
+                password: formData.password,
+              });
+            } catch (err) {
+              console.log(err);
+              addToast({
+                type: 'info',
+                title: 'Erro na autenticação',
+                description:
+                  'Ocorreu um erro ao fazer login. Cheque as credenciais.',
+              });
+            }
           })}
         >
           <h1>Faça seu logon</h1>
