@@ -2,7 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiArrowLeft, FiMail, FiUser, FiLock } from 'react-icons/fi';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import api from '../../services/api';
+
+import { useToast } from '../../hooks/toast';
 
 import logoImg from '../../assets/logo.svg';
 
@@ -20,7 +23,8 @@ type FormData = {
 
 const SignUp: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<FormData>();
-
+  const { addToast } = useToast();
+  const history = useHistory();
   return (
     <Container>
       <Background />
@@ -28,8 +32,23 @@ const SignUp: React.FC = () => {
         <AnimatedContainer>
           <img src={logoImg} alt="GoBarber" />
           <form
-            onSubmit={handleSubmit(formData => {
-              console.log(formData);
+            onSubmit={handleSubmit(async formData => {
+              try {
+                await api.post('/users', formData);
+                history.push('/');
+                addToast({
+                  type: 'success',
+                  title: 'Cadastro realizado!',
+                  description: 'Você já pode fazer seu logon no GoBarber',
+                });
+              } catch (err) {
+                addToast({
+                  type: 'error',
+                  title: 'Erro na cadastro',
+                  description:
+                    'Ocorreu um erro ao fazer o cadastro. Tente novamente.',
+                });
+              }
             })}
           >
             <h1>Faça seu cadastro</h1>

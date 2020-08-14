@@ -36,9 +36,8 @@ const SignIn: React.FC = () => {
                   password: formData.password,
                 });
               } catch (err) {
-                console.log(err);
                 addToast({
-                  type: 'info',
+                  type: 'error',
                   title: 'Erro na autenticação',
                   description:
                     'Ocorreu um erro ao fazer login. Cheque as credenciais.',
